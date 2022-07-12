@@ -4,9 +4,12 @@ import styles from "../styles/Home.module.css";
 import Banner from "../components/Banner";
 import Card from "../components/Card";
 import { fetchCoffeeStores } from "../lib/coffee-stores";
+import useTrackLocation from "../hooks/use-track-location";
+import { useEffect } from "react";
 
 export async function getStaticProps(context) {
    const coffeeStores = await fetchCoffeeStores();
+
    return {
       props: {
          coffeeStores,
@@ -15,7 +18,25 @@ export async function getStaticProps(context) {
 }
 
 export default function Home(props) {
-   const handleOnClick = () => {};
+   const { latLong, handleTrackLocation, locationErrorMsg } =
+      useTrackLocation();
+
+   console.log({ latLong, locationErrorMsg });
+   const handleOnClick = () => {
+      handleTrackLocation();
+   };
+   const myFunction = async () => {
+      try {
+         const fetchedCoffeeStores = await fetchCoffeeStores(latLong, 30);
+         console.log({ fetchedCoffeeStores });
+      } catch (error) {
+         //set error
+         console.log(error);
+      }
+   };
+   useEffect(() => {
+      myFunction();
+   }, [latLong]);
    return (
       <div className={styles.container}>
          <Head>
@@ -41,17 +62,19 @@ export default function Home(props) {
                   <h2 className={styles.heading2}>Toronto stores</h2>
                   <div className={styles.cardLayout}>
                      {props.coffeeStores.map((coffeeStore) => {
-                       return  <Card
-                           key={coffeeStore.fsq_id}
-                           name={coffeeStore.name}
-                           imgUrl={
-                              coffeeStore.imgUrl ||
-                              "https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
-                           }
-                           href={`/coffee-store/${coffeeStore.fsq_id}`}
-                           className={styles.card}
-                        />
-                           }   )}
+                        return (
+                           <Card
+                              key={coffeeStore.fsq_id}
+                              name={coffeeStore.name}
+                              imgUrl={
+                                 coffeeStore.imgUrl ||
+                                 "https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
+                              }
+                              href={`/coffee-store/${coffeeStore.fsq_id}`}
+                              className={styles.card}
+                           />
+                        );
+                     })}
                   </div>
                </div>
             )}

@@ -18,8 +18,13 @@
 }
 .cardImage{
    border-radius: 0.75rem /*12px*/;
-
 }
 .cardHeaderWrapper{
    margin: .5rem 0 1rem .5rem;
+}
+.cardHeader{
+   width: 260px;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
 }

@@ -108,8 +108,8 @@
    .col2 {
       width: 75%;
       top: 5rem;
-      height: 100%;
-      margin: auto;
+      /* height: 100%; */
+      /* margin: auto; */
    }
 }
 @media (max-width: 640px) {

@@ -50,7 +50,7 @@ const CoffeeStore = (props) => {
             <div className={styles.col1}>
                <div className={styles.backToHomeLink}>
                   <Link href="/">
-                     <a>Back to home</a>
+                     <a>&#11013; Back to home</a>
                   </Link>
                </div>
                <div className={styles.nameWrapper}>
@@ -69,11 +69,11 @@ const CoffeeStore = (props) => {
             </div>
             <div className={cls("glass", styles.col2)}>
                <div className={styles.iconWrapper}>
-                  <Image className={styles.icons} src="/static/icons/map.svg" width="24" height="24" />
+                  {/* <Image className={styles.icons} src="/static/icons/map.svg" width="24" height="24" /> */}
                   <p className={styles.text}>{location.formatted_address}</p>
                </div>
                <div className={styles.iconWrapper}>
-                  <Image src="/static/icons/star.svg" width="24" height="24" />
+                  {/* <Image src="/static/icons/star.svg" width="24" height="24" /> */}
                   <p className={styles.text}>{1}</p>
                </div>
                <button

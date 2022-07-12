@@ -6,14 +6,16 @@ import React from "react";
 import styles from "../../styles/Coffee-style.module.css";
 import cls from "classnames";
 import { fetchCoffeeStores } from "../../lib/coffee-stores";
+
 export async function getStaticProps(staticProps) {
    const params = staticProps.params;
    const coffeeStores = await fetchCoffeeStores();
+   const findCoffeeStoresById = coffeeStores.find((coffeeStore) => {
+      return coffeeStore.fsq_id.toString() === params.id;
+   });
    return {
       props: {
-         coffeeStore: coffeeStores.find((coffeeStore) => {
-            return coffeeStore.fsq_id.toString() === params.id;
-         }),
+         coffeeStore: findCoffeeStoresById ? findCoffeeStoresById : {},
       },
    };
 }

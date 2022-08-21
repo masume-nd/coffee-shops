@@ -5,7 +5,8 @@ import Banner from "../components/Banner";
 import Card from "../components/Card";
 import { fetchCoffeeStores } from "../lib/coffee-stores";
 import useTrackLocation from "../hooks/use-track-location";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { ACTION_TYPES, StoreContext } from "../store/store-context";
 
 export async function getStaticProps(context) {
    const coffeeStores = await fetchCoffeeStores();
@@ -13,27 +14,38 @@ export async function getStaticProps(context) {
    return {
       props: {
          coffeeStores,
-      }, 
+      },
    };
 }
 
 export default function Home(props) {
-   const [coffeeShops, setCoffeeShops] = useState("");
+   // const [coffeeShops, setCoffeeShops] = useState("");
    const [error, setError] = useState(null);
+   const { dispatch, state } = useContext(StoreContext);
 
-   const { latLong, handleTrackLocation, locationErrorMsg } =
-      useTrackLocation();
+   const { coffeeShops, latLong } = state;
+   const { handleTrackLocation, locationErrorMsg } = useTrackLocation();
 
    const handleOnClick = () => {
       handleTrackLocation();
    };
    const myFunction = async () => {
-      try {
-         const fetchedCoffeeStores = await fetchCoffeeStores(latLong, 30);
-         setCoffeeShops(fetchedCoffeeStores);
-      } catch (err) {
-         setError(err.message);
-         console.log(error);
+      if (latLong) {
+         try {
+            // setCoffeeShops(fetchedCoffeeStores);
+            const fetchedCoffeeStores = await fetch(
+               `/api/getCoffeeStoresByLocation?latLong=${latLong}&limit=30`
+            );
+            const coffeeShops = await fetchedCoffeeStores.json();
+            dispatch({
+               type: ACTION_TYPES.SET_COFFEE_SHOPS,
+               payload: { coffeeShops },
+            });
+            setError("")
+         } catch (err) {
+            setError(err.message);
+            console.log(error);
+         }
       }
    };
    useEffect(() => {

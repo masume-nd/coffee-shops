@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Document</title>
+   </head>
+   <style>
+      .my-box {
+         width: 100px;
+         height: 100px;
+         background-color: yellow;
+         box-sizing: border-box;
+         padding: auto;
+         margin: 10px;
+      }
+      .inside-box {
+         width: 40px;
+         height: 40px;
+         background-color: red;
+      }
+      .container{
+        display: inline-flex;
+      }
+   </style>
+   <body>
+      <div class="container">
+         <div class="my-box">
+            <div class="inside-box"></div>
+         </div>
+         <div class="my-box">
+            <div class="inside-box"></div>
+         </div>
+         <div class="my-box">
+            <div class="inside-box"></div>
+         </div>
+         <div class="my-box">
+            <div class="inside-box"></div>
+         </div>
+      </div>
+   </body>
+</html>
